@@ -36,24 +36,24 @@ fn main() {
     }
 
 
-    println!("verif start");
+    //println!("verif start");
     if !verif(n, &graph) {
         println!("IMPOSSIBLE");
         return;
     }
-    println!("verif done");
+    //println!("verif done");
     let ans = eulerian_cycle(&graph).iter().rev().map(|&x| x).collect::<Vec<usize>>();
     
     if ans.len() != m + 1 || ans[0] != 1 || ans[m] != 1{
         println!("IMPOSSIBLE");
     } else {
-        let mut ans_str = String::new();
+        //let mut ans_str = String::new();
         for i in ans {
-            ans_str.push_str(&i.to_string());
-            ans_str.push_str(" ");
-            //print!("{} ", i);
+            //ans_str.push_str(&i.to_string());
+            //ans_str.push_str(" ");
+            print!("{} ", i);
         }
-        fs::write("mail.out", ans_str).expect("Unable to write file");
+        //fs::write("mail.out", ans_str).expect("Unable to write file");
     }
 }
 // find a eulerian cycle that starts and ends at node 1, using every edge in the graph
