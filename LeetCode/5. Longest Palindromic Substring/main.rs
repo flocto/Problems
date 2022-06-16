@@ -27,13 +27,13 @@ impl Solution {
 
             radii[center] = radius;
 
-            let mut old_center = center;
-            let mut old_radius = radius;
+            let old_center = center;
+            let old_radius = radius;
             center += 1;
             radius = 0;
             while center <= old_center + old_radius {
-                let mut mirror_center = old_center - (center - old_center);
-                let mut mirror_radius = old_center + old_radius - center;
+                let mirror_center = old_center - (center - old_center);
+                let mirror_radius = old_center + old_radius - center;
                 if radii[mirror_center] < mirror_radius {
                     radii[center] = radii[mirror_center];
                     center += 1;
