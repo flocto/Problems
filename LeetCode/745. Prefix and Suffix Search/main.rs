@@ -87,7 +87,7 @@ impl WordFilter {
  *          for (w, word) in words.iter().enumerate() {
  *              for i in 0..min(word.len(), 11) {
  *                  for j in 0..min(word.len(), 11) {
- *                      let word = word[..i+1].to_string() + "_" + &word[j..];
+ *                      let word = word[..i+1].to_string() + "_" + &word[word.len()-j-1..].to_string();
  *                      map.insert(word.clone(), w as i32);
  *                  }
  *              } 
