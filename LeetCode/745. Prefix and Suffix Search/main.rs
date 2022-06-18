@@ -88,11 +88,7 @@ impl WordFilter {
  *              for i in 0..min(word.len(), 11) {
  *                  for j in 0..min(word.len(), 11) {
  *                      let word = word[..i+1].to_string() + "_" + &word[j..];
- *                      if map.contains_key(&word) {
- *                          map.insert(word.clone(), max(map[&word], w as i32));
- *                      } else {
- *                          map.insert(word.clone(), w as i32);
- *                      }
+ *                      map.insert(word.clone(), w as i32);
  *                  }
  *              } 
  *          }
