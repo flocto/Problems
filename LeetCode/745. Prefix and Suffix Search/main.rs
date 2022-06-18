@@ -67,3 +67,43 @@ impl WordFilter {
  * let obj = WordFilter::new(words);
  * let ret_1: i32 = obj.f(prefix, suffix);
  */
+
+/**
+ * It turns out using a HashMap is actually faster than using a Trie because at most there are 1500000 entries in the HashMap.
+ * Still, I will leave the Trie code uncommented as it was my initial solution.
+ * Code for HashMap Solution:
+ * 
+ * use std::collections::HashMap;
+ * use std::cmp::min;
+ * use std::cmp::max;
+ * struct WordFilter {
+ *     map: HashMap<String, i32>,
+ * }
+ *
+ * 
+ * impl WordFilter {
+ *      fn new(words: Vec<String>) -> Self {
+ *          let mut map = HashMap::new();
+ *          for (w, word) in words.iter().enumerate() {
+ *              for i in 0..min(word.len(), 11) {
+ *                  for j in 0..min(word.len(), 11) {
+ *                      let word = word[..i+1].to_string() + "_" + &word[j..];
+ *                      if map.contains_key(&word) {
+ *                          map.insert(word.clone(), max(map[&word], w as i32));
+ *                      } else {
+ *                          map.insert(word.clone(), w as i32);
+ *                      }
+ *                  }
+ *              } 
+ *          }
+ *          WordFilter {
+ *              map: map,
+ *          }
+ *      }
+ *      
+ *      fn f(&mut self, prefix: String, suffix: String) -> i32 {
+ *          let word = prefix + "_" + &suffix;
+ *          *self.map.get(&word).unwrap_or(&-1)
+ *      }
+ *  }
+ */
