@@ -39,3 +39,6 @@ with open(name+"/README.md", "w") as f:
 
 with open(name+"/main.rs", "w") as f:
     pass
+
+print("Created files for " + name)
+print("Site: " + link)
