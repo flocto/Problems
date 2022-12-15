@@ -3,33 +3,49 @@ with open("input", "r") as f:
 
 data = [x.strip() for x in data]
 
-grid = [[ 0 for x in range(len(data[0]))] for y in range(len(data))]
+monkeys = []
+old = 0
+new = 0
+gtest = 1
+class Monkey:
+    def __init__(self, items, op, test, a, b):
+        global gtest
+        self.items = eval("[" + items + "]")
+        self.op = op
+        self.test = int(test)
+        gtest *= self.test
+        self.a = int(a)
+        self.b = int(b)
+        self.inspect_count = 0
+    
+    def inspect(self):
+        global old, new
+        while len(self.items) != 0:
+            self.inspect_count += 1
+            old = self.items.pop()
+            new = 0
+            exec(self.op, globals())
+            # new //= 3
+            if new % self.test == 0:
+                monkeys[self.a].items.append(new % gtest)
+            else:
+                monkeys[self.b].items.append(new % gtest)
+        
 
-sx, sy = 0, 0
-for x in range(len(data)):
-    for y in range(len(data[x])):
-        if data[x][y] == "S":
-            pass
-        elif data[x][y] == "E":
-            sx, sy = x, y
-            grid[x][y] = 25
-        else:
-            grid[x][y] = ord(data[x][y]) - ord("a")
 
+for i in range(0, len(data), 7):
+    items = data[i+1].split("Starting items: ")[-1]
+    op = data[i+2].split("Operation: ")[-1]
+    test = data[i+3].split(" ")[-1]
+    a = int(data[i+4].split(" ")[-1])
+    b = int(data[i+5].split(" ")[-1])
+    monkeys.append(Monkey(items, op, test, a, b))
 
-visited = [[False for x in range(len(data[0]))] for y in range(len(data))]
+for i in range(10000):
+    for monkey in monkeys:
+        monkey.inspect()
 
-qu = [(sx, sy, 0)]
-visited[sx][sy] = True
-dx, dy = [0, 0, 1, -1], [1, -1, 0, 0]
-while qu:
-    x, y, d = qu.pop(0)
-    if grid[x][y] == 0:
-        print(d)
-        break
-    for i in range(4):
-        nx, ny = x + dx[i], y + dy[i]
-        if 0 <= nx < len(data) and 0 <= ny < len(data[0]) and not visited[nx][ny]:
-            if grid[nx][ny] >= grid[x][y] - 1:
-                visited[nx][ny] = True
-                qu.append((nx, ny, d + 1))
+counts = [monkey.inspect_count for monkey in monkeys]
+print(counts)
+counts.sort()
+print(counts[-1] * counts[-2])
